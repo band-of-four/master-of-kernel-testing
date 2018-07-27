@@ -26,8 +26,10 @@ class MasterOfKernel:
     def test(self, inp1, inp2, expected, operation):    
         mf = cl.mem_flags
         f_a_g = cl.Buffer(self.f_ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=inp1)
-        f_b_g = cl.Buffer(self.f_ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=inp2)
         f_res_g = cl.Buffer(self.f_ctx, mf.WRITE_ONLY, inp1.nbytes)
+
+        if (inp2 is not None):
+            f_b_g = cl.Buffer(self.f_ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=inp2)
         
         if (operation == "sum"):
             f_event = self.sumOp.__call__(self.f_queue, inp1, f_a_g, f_b_g, f_res_g)

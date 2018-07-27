@@ -17,4 +17,4 @@ perfect_res_relu = operations.ReLU(cl.create_some_context()).relu_on_cpu(relu_np
 print("ArrayAdd:")
 framework.test(a_np, b_np, perfect_res, "sum")
 print("\nReLU:")
-framework.test(relu_np, np.array([0]), perfect_res_relu, "relu") # TODO: np.array([0]) - is stupid, need to be fixed
+framework.test(relu_np, None, perfect_res_relu, "relu")
