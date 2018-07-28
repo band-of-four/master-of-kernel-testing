@@ -1,6 +1,6 @@
 # Main framework code
 import pyopencl as cl
-import Operations as operations
+import operations as operations
 import numpy as np
 from time import time  # Import time tools
 
