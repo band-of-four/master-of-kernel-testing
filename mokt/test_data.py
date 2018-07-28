@@ -38,7 +38,7 @@ class TestData(object):
         @functools.wraps(test_fn)
         def with_inputs(*args, **kwargs):
             kwargs['test_data'] = self.test_data
-            test_fn(*args, **kwargs)
+            return test_fn(*args, **kwargs)
 
         return with_inputs
 
