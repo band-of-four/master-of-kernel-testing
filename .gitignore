@@ -1,0 +1,8 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python bytecode cache
+__pycache__/
+
+# Test data cache
+__testdumps__/
