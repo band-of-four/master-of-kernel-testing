@@ -50,7 +50,10 @@ class MasterOfKernel:
         elapsed = 1e-9 * (
             f_event.profile.end - f_event.profile.start
         )  # Calculate the time it took to execute the kernel
-        mem_bw = (inp1.nbytes + inp2.nbytes) / (elapsed * 1024 * 1024 * 1024)
+        if (inp2 is not None):
+            mem_bw = (inp1.nbytes + inp2.nbytes) / (elapsed * 1024 * 1024 * 1024)
+        else:
+            mem_bw = (inp1.nbytes) / (elapsed * 1024 * 1024 * 1024)
         print(
             "GPU Kernel Time: {0}s".format(elapsed) + ", " + str(mem_bw) +
             " Gb/s")  # Print the time it took to execute the kernel
@@ -65,7 +68,10 @@ class MasterOfKernel:
 
         # CPU
         cpu_time = cpu_stats[2] - cpu_stats[1]
-        mem_cpu = (inp1.nbytes + inp2.nbytes) / (cpu_time * 1024 * 1024 * 1024)
+        if (inp2 is not None):
+            mem_cpu = (inp1.nbytes + inp2.nbytes) / (cpu_time * 1024 * 1024 * 1024)
+        else:
+            mem_cpu = (inp1.nbytes) / (cpu_time * 1024 * 1024 * 1024)
         print(
             "CPU Time: {0}s".format(cpu_time) + ", " + str(mem_cpu) + " Gb/s")
         cpu_accur = self.check_accuracy(expected, cpu_stats[0])
