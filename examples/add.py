@@ -7,9 +7,9 @@ from mokt import TestData, test_kernel_from_file
 @TestData(
     tf_checkpoint_dir='/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir',
     tf_values={
-        'first_input': 'tower_0/v/cg/resnet_v10/conv1/batchnorm1/FusedBatchNorm:0',
-        'second_input': 'tower_0/v/cg/resnet_v10/conv4/batchnorm4/FusedBatchNorm:0',
-        'output': 'tower_0/v/cg/resnet_v10/add:0'
+        'first_input': 'tower_0/v/cg/resnet_v15/conv20/batchnorm20/FusedBatchNorm:0',
+        'second_input': 'tower_0/v/cg/resnet_v14/Relu:0',
+        'output': 'tower_0/v/cg/resnet_v15/add:0'
     })
 def test_add(test_data):
     add_first_in = test_data['first_input'].flatten()

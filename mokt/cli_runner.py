@@ -32,10 +32,10 @@ def test_kernel_from_file(
         kernel, inputs, env.output_defs(expected_outputs), global_size,
         local_size)
 
-    verify_and_profile(exec_event, expected_outputs, actual_outputs)
+    verify_and_profile(exec_event, inputs, expected_outputs, actual_outputs)
 
 
-def verify_and_profile(exec_event, expected_outputs, actual_outputs):
+def verify_and_profile(exec_event, inputs, expected_outputs, actual_outputs):
     exec_time = 1e-3 * (exec_event.profile.end - exec_event.profile.start)
     print(f'Accelerator execution time: {exec_time:.1f}us')
 
@@ -52,7 +52,12 @@ def verify_and_profile(exec_event, expected_outputs, actual_outputs):
             deltas = []
             for j in range(len(expected)):
                 if expected[j] != actual[j]:
-                    deltas.append(
-                        max(expected[j], actual[j]) - min(expected[j], actual[j]))
-            print(np.sum(deltas) / len(deltas))
+                    error = max(expected[j], actual[j]) - min(expected[j], actual[j])
+                    deltas.append(error)
+                    if (j < 20):
+                        try:
+                            print('%d) in: %f, %f = tf: %f, test: %f, delta = %f' % (j, inputs[0][j], inputs[1][j], expected[j], actual[j], error))
+                        except Exception:
+                            print('%d) in: %f = tf: %f, test: %f, delta = %f' % (j, inputs[0][j], expected[j], actual[j], error))
+            print('average delta: %f' % (np.sum(deltas) / len(deltas)))
         
