@@ -1,9 +1,7 @@
 import sys
 sys.path.append('.')
 
-from mokt import TestEnvironment, TestData
-
-env = TestEnvironment()
+from mokt import TestData, test_kernel_from_file
 
 
 @TestData(
@@ -13,28 +11,16 @@ env = TestEnvironment()
         'output': 'v/tower_0/cg/resnet_v10/Relu:0'
     })
 def test_relu(test_data):
-    relu_in = test_data['input'].flatten()[:20]
-    expected_out = test_data['output'].flatten()[:20]
+    relu_in = test_data['input'].flatten()
+    relu_out = test_data['output'].flatten()
 
-    kernel = env.create_program(
-        """
-        __kernel void relu(
-            __global const float *a_g, __global float *res_g)
-        {
-          int gid = get_global_id(0);
-          res_g[gid] = max(a_g[gid], 0.0f);
-        }
-        """).relu
-
-    exec_event, outputs = env.run_kernel(
-        kernel, [relu_in], [(expected_out.shape[0], expected_out.dtype.type)],
+    test_kernel_from_file(
+        'examples/relu.cl',
+        kernel_name='relu',
+        inputs=[relu_in.flatten()],
+        expected_outputs=[relu_out.flatten()],
         global_size=relu_in.shape,
-        local_size=(20, ))
-    actual_out = outputs[0]
-
-    print(relu_in)
-    print(expected_out)
-    print(actual_out)
+        local_size=(1, ))
 
 
 test_relu()
