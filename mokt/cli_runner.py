@@ -57,7 +57,7 @@ def verify_and_profile(exec_event, inputs, expected_outputs, actual_outputs):
                     if (j < 20):
                         try:
                             print('%d) in: %f, %f = tf: %f, test: %f, delta = %f' % (j, inputs[0][j], inputs[1][j], expected[j], actual[j], error))
-                        except Exception:
+                        except IndexError:
                             print('%d) in: %f = tf: %f, test: %f, delta = %f' % (j, inputs[0][j], expected[j], actual[j], error))
             print('average delta: %f' % (np.sum(deltas) / len(deltas)))
         
