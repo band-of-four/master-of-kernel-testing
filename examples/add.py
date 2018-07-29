@@ -3,16 +3,30 @@ sys.path.append('.')
 
 from mokt import TestData, test_kernel_from_file
 
+
+keys = {}
+for a in sys.argv:
+    temp = a.split('=', maxsplit = 1)
+    if (len(temp) > 1):
+        keys[temp[0]] = temp[1]
+
+if(keys.get('--file') is not None):
+    file = open(keys['--file'], 'r')
+    for line in file:
+        line = line.rstrip() 
+        temp = line.split('=', maxsplit = 1)
+        keys[temp[0]] = temp[1]
+
 # command example:
 # python3 examples/add.py --chkp_dir='/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir'
 # --first_input='tower_0/v/cg/resnet_v15/conv20/batchnorm20/FusedBatchNorm:0' 
 # --second_input='tower_0/v/cg/resnet_v14/Relu:0' --output='tower_0/v/cg/resnet_v15/add:0'
 @TestData(
-    tf_checkpoint_dir=sys.argv[1].split('=', maxsplit = 1)[1],
+    tf_checkpoint_dir=keys.get('--chkp_dir'),
     tf_values={
-        'first_input': sys.argv[2].split('=', maxsplit = 1)[1],
-        'second_input': sys.argv[3].split('=', maxsplit = 1)[1],
-        'output': sys.argv[4].split('=', maxsplit = 1)[1]
+        'first_input': keys.get('--first_input'),
+        'second_input': keys.get('--second_input'),
+        'output': keys.get('--output')
     })
 def test_add(test_data):
     add_first_in = test_data['first_input'].flatten()

@@ -1,0 +1,4 @@
+--chkp_dir=/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir
+--first_input=tower_0/v/cg/resnet_v15/conv20/batchnorm20/FusedBatchNorm:0 
+--second_input=tower_0/v/cg/resnet_v14/Relu:0
+--output=tower_0/v/cg/resnet_v15/add:0
