@@ -17,10 +17,13 @@ if(keys.get('--file') is not None):
         temp = line.split('=', maxsplit = 1)
         keys[temp[0]] = temp[1]
 
-# command example:
-# python3 examples/add.py --chkp_dir='/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir'
-# --first_input='tower_0/v/cg/resnet_v15/conv20/batchnorm20/FusedBatchNorm:0' 
-# --second_input='tower_0/v/cg/resnet_v14/Relu:0' --output='tower_0/v/cg/resnet_v15/add:0'
+''' command example:
+ python3 examples/add.py --chkp_dir='/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir'
+ --first_input='tower_0/v/cg/resnet_v15/conv20/batchnorm20/FusedBatchNorm:0' 
+ --second_input='tower_0/v/cg/resnet_v14/Relu:0' --output='tower_0/v/cg/resnet_v15/add:0'
+
+ or python3 examples/add.py --file=examples/add_properties.txt '''
+ 
 @TestData(
     tf_checkpoint_dir=keys.get('--chkp_dir'),
     tf_values={

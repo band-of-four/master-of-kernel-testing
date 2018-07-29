@@ -37,7 +37,12 @@ def test_kernel_from_file(
 
 def verify_and_profile(exec_event, inputs, expected_outputs, actual_outputs):
     exec_time = 1e-3 * (exec_event.profile.end - exec_event.profile.start)
-    print(f'Accelerator execution time: {exec_time:.1f}us')
+    if (len(inputs) > 1):
+        mem_bw = (inputs[0].nbytes + inputs[1].nbytes) / (1e-6 * exec_time * 1024 * 1024 * 1024)
+    else:
+        mem_bw = (inputs[0].nbytes) / (1e-6 * exec_time * 1024 * 1024 * 1024)
+    print(f'Accelerator execution time: {exec_time:.1f}us, {mem_bw:.2f} Gb/s')
+    
 
     # TODO: Print deltas
     for i, (expected, actual) in enumerate(zip(expected_outputs,
