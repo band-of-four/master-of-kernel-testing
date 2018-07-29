@@ -5,10 +5,10 @@ from mokt import TestData, test_kernel_from_file
 
 
 @TestData(
-    tf_checkpoint_dir='../../Documents/resnet50v1_traindir',
+    tf_checkpoint_dir='/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir',
     tf_values={
-        'input': 'v/tower_0/cg/resnet_v10/add:0',
-        'output': 'v/tower_0/cg/resnet_v10/Relu:0'
+        'input': 'tower_0/v/cg/resnet_v10/add:0',
+        'output': 'tower_0/v/cg/resnet_v10/Relu:0'
     })
 def test_relu(test_data):
     relu_in = test_data['input'].flatten()

@@ -49,3 +49,10 @@ def verify_and_profile(exec_event, expected_outputs, actual_outputs):
         else:
             cprint(
                 f'[Output #{i}]: Actual values do not match expected', 'red')
+            deltas = []
+            for j in range(len(expected)):
+                if expected[j] != actual[j]:
+                    deltas.append(
+                        max(expected[j], actual[j]) - min(expected[j], actual[j]))
+            print(np.sum(deltas) / len(deltas))
+        
