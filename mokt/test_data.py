@@ -48,6 +48,8 @@ class TestData(object):
 
 def load_graph_from_checkpoint(sess, chkpt_dir):
     latest_chkpt = tf.train.latest_checkpoint(chkpt_dir)
+    assert latest_chkpt is not None, f'Unable to find a checkpoint in {chkpt_dir}'
+
     saver = tf.train.import_meta_graph(f'{latest_chkpt}.meta')
     saver.restore(sess, latest_chkpt)
 
