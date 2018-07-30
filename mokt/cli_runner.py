@@ -4,18 +4,19 @@ from termcolor import cprint
 
 from .test_environment import TestEnvironment
 
+
 def get_keys():
     keys = {}
     for a in sys.argv:
-        temp = a.split('=', maxsplit = 1)
+        temp = a.split('=', maxsplit=1)
     if (len(temp) > 1):
         keys[temp[0]] = temp[1]
 
-    if(keys.get('--file') is not None):
+    if (keys.get('--file') is not None):
         file = open(keys['--file'], 'r')
         for line in file:
-            line = line.rstrip() 
-            temp = line.split('=', maxsplit = 1)
+            line = line.rstrip()
+            temp = line.split('=', maxsplit=1)
             keys[temp[0]] = temp[1]
     return keys
 
@@ -53,11 +54,11 @@ def test_kernel_from_file(
 def verify_and_profile(exec_event, inputs, expected_outputs, actual_outputs):
     exec_time = 1e-3 * (exec_event.profile.end - exec_event.profile.start)
     if (len(inputs) > 1):
-        mem_bw = (inputs[0].nbytes + inputs[1].nbytes) / (1e-6 * exec_time * 1024 * 1024 * 1024)
+        mem_bw = (inputs[0].nbytes + inputs[1].nbytes) / (
+            1e-6 * exec_time * 1024 * 1024 * 1024)
     else:
         mem_bw = (inputs[0].nbytes) / (1e-6 * exec_time * 1024 * 1024 * 1024)
     print(f'Accelerator execution time: {exec_time:.1f}us, {mem_bw:.2f} Gb/s')
-    
 
     # TODO: Print deltas
     for i, (expected, actual) in enumerate(zip(expected_outputs,
@@ -72,12 +73,19 @@ def verify_and_profile(exec_event, inputs, expected_outputs, actual_outputs):
             deltas = []
             for j in range(len(expected)):
                 if expected[j] != actual[j]:
-                    error = max(expected[j], actual[j]) - min(expected[j], actual[j])
+                    error = max(expected[j], actual[j]) - min(
+                        expected[j], actual[j])
                     deltas.append(error)
                     if (j < 20):
                         try:
-                            print('%d) in: %f, %f = tf: %f, test: %f, delta = %f' % (j, inputs[0][j], inputs[1][j], expected[j], actual[j], error))
+                            print(
+                                '%d) in: %f, %f = tf: %f, test: %f, delta = %f'
+                                % (
+                                    j, inputs[0][j], inputs[1][j], expected[j],
+                                    actual[j], error))
                         except IndexError:
-                            print('%d) in: %f = tf: %f, test: %f, delta = %f' % (j, inputs[0][j], expected[j], actual[j], error))
+                            print(
+                                '%d) in: %f = tf: %f, test: %f, delta = %f' % (
+                                    j, inputs[0][j], expected[j], actual[j],
+                                    error))
             print('average delta: %f' % (np.sum(deltas) / len(deltas)))
-        

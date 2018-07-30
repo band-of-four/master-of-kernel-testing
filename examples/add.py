@@ -5,7 +5,6 @@ from mokt import TestData, test_kernel_from_file
 from mokt.cli_runner import get_keys
 
 keys = get_keys()
-
 ''' 
  command example:
  python3 examples/add.py --chkp_dir='/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir'
@@ -14,7 +13,8 @@ keys = get_keys()
 
  or python3 examples/add.py --file=examples/add_properties.txt
 '''
- 
+
+
 @TestData(
     tf_checkpoint_dir=keys.get('--chkp_dir'),
     tf_values={
@@ -30,9 +30,11 @@ def test_add(test_data):
     test_kernel_from_file(
         'examples/add.cl',
         kernel_name='add',
-        inputs=[add_first_in.flatten(), add_second_in.flatten()],
+        inputs=[add_first_in.flatten(),
+                add_second_in.flatten()],
         expected_outputs=[add_out.flatten()],
         global_size=add_first_in.shape,
         local_size=(1, ))
+
 
 test_add()
