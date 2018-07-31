@@ -9,8 +9,14 @@ class TestEnvironment(object):
         OpenCL context and command queue are instantiated in the __init__ method
         and are available for the lifetime of an environment object.
         """
+        platform = cl.get_platforms()
+        my_devices = platform[0].get_devices(device_type=cl.device_type.ALL)
+        print('Select device:')
+        for i in range(len(my_devices)):
+            print("[%d]: %s" % (i, my_devices[i].name))
+        choise = input('Choise: ')
 
-        self.context = cl.create_some_context()
+        self.context = cl.Context(devices=[my_devices[int(choise)]])
         self.cmd_queue = cl.CommandQueue(
             self.context,
             properties=cl.command_queue_properties.PROFILING_ENABLE)
