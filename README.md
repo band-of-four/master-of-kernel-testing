@@ -48,3 +48,14 @@ Execution is performed in a [TestEnvironment](https://github.com/band-of-four/ma
 which conveniently wraps host state and handles data conversion (read the class documentation for more information).
 
 You may of course choose to write your own specialized implementation and use this library for data extraction only.
+
+### Using universal test runner
+
+```python
+python3 com.py --some_keys
+```
+keys:
+--input/--first_input, --second_input*, --output, --cl_source*, --kernel_name*, --file*
+'*' - optionally
+if you do not specify 'cl_source' and 'kernel name' then they will be identified automatically by the output operation name
+if your output ends with '.../Relu:0', then 'cl_source' will be 'relu.cl' and 'kernel_name' - 'relu'
