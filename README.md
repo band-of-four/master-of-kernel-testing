@@ -55,10 +55,11 @@ You may of course choose to write your own specialized implementation and use th
 python3 com.py --some_keys
 ```
 
-keys:
+Keys:
 --input/--first_input, --second_input*, --output, --cl_source*, --kernel_name*, --file*
 
 '*' - optionally
 
-if you do not specify 'cl_source' and 'kernel name' then they will be identified automatically by the output operation name
-if your output ends with '.../Relu:0', then 'cl_source' will be 'relu.cl' and 'kernel_name' - 'relu'
+If you do not specify 'cl_source' and 'kernel name' then they will be identified automatically by the output operation name
+
+If your output ends with '.../Relu:0', then 'cl_source' will be 'relu.cl' and 'kernel_name' - 'relu'
