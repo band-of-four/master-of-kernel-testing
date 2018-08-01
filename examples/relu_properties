@@ -1,3 +1,5 @@
 --chkp_dir=/mnt/f/benchmark/benchmarks-master/resnet50v1_traindir
 --input=tower_0/v/cg/resnet_v10/add:0
 --output=tower_0/v/cg/resnet_v10/Relu:0
+--cl_source=relu.cl
+--kernel_name=relu
